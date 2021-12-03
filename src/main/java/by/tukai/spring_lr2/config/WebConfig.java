@@ -33,5 +33,13 @@ public class WebConfig implements WebMvcConfigurer {
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
+    @Override public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/register").setViewName("register");
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/doctor").setViewName("doctor");
+        registry.addViewController("/user").setViewName("user");
+
+    }
 }
 
