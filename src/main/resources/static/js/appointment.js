@@ -31,10 +31,14 @@ async function add(){
             if (res.status == 403)
                 $('#div').html(errorPage("Not enough access rights"));
             else {
-                if(res.error){
-                    $('#error').text(res.error);
+                if(res.status == 500){
+                    $('#div').html(errorPage("Authorisation Error"));
                 }else {
-                     document.location.href = "/doctor";
+                    if (res.error) {
+                        $('#error').text(res.error);
+                    } else {
+                        document.location.href = "/doctor";
+                    }
                 }
             }
         }
@@ -55,26 +59,11 @@ async function load() {
         else {
             if (res.status == 403)
                 $('#div').html(errorPage("Not enough access rights"));
-        }
-    });
-}
-
-async function loadInfo(){
-    fetch("/api/appointment/get/" + id, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization' : header
-        }
-    }).then(res => res.json()).then(res => {
-        if(res.status == 401)
-            $('#div').html(errorPage("You are not authorized"));
-        else {
-                $('#username').text(res.username);
-                $('#doctorname').text(res.doctorname);
-                $('#bday').val(res.bday);
-                $('#gender').val(res.gender);
+            else{
+                if(res.status == 500){
+                    $('#div').html(errorPage("Authorisation Error"));
+                }else {}
+            }
         }
     });
 }
@@ -91,5 +80,11 @@ async function checkGet(){
         console.log(res.status);
         if (res.status == 401)
             $('#div').html(errorPage("You are not authorized"));
+        else {
+            if(res.status == 500){
+                $('#div').html(errorPage("Authorisation Error"));
+            }else {
+            }
+        }
     });
 }

@@ -41,10 +41,14 @@ async function Save(role){
         if(res.status == 400){
             $('#mesP').text("Enter correct data");
         }else {
-            if (res.error) {
-                $('#mesP').text(res.error);
-            } else {
-                $('#mesP').text("Successful");
+            if(res.status == 500){
+                $('#div').html(errorPage("Authorisation Error"));
+            }else {
+                if (res.error) {
+                    $('#mesP').text(res.error);
+                } else {
+                    $('#mesP').text("Successful");
+                }
             }
         }
     });
@@ -71,15 +75,19 @@ async function getUser(role){
             if (res.status == 403)
                 $('#div').html(errorPage("Not enough access rights"));
             else {
-                let user = res;
-                id = user.id;
-                $('#username').text(user.username);
-                $('#name').text(user.name);
-                $('#phoneNumber').val(user.phoneNumber);
-                $('#email').val(user.email);
-                if (role == 1)
-                    getPets();
-                else getCharacter();
+                    if(res.status == 500){
+                        $('#div').html(errorPage("Authorisation Error"));
+                    }else {
+                        let user = res;
+                        id = user.id;
+                        $('#username').text(user.username);
+                        $('#name').text(user.name);
+                        $('#phoneNumber').val(user.phoneNumber);
+                        $('#email').val(user.email);
+                        if (role == 1)
+                            getPets();
+                        else getCharacter();
+                    }
             }
         }
     });

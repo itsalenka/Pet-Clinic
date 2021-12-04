@@ -20,16 +20,20 @@ async function Add(){
         if(res.status == 400){
             $('#mesPet').text("Enter correct data");
         }else {
-            if (res.error) {
-                $('#mesPet').text(res.error);
-            } else {
-                $('#mesPet').text("Successful");
-                $(':input','#form')
-                    .not(':button, :submit, :reset, :hidden')
-                    .val('')
-                    .removeAttr('checked')
-                    .removeAttr('selected');
-               getPets();
+            if(res.status == 500){
+                $('#div').html(errorPage("Authorisation Error"));
+            }else {
+                if (res.error) {
+                    $('#mesPet').text(res.error);
+                } else {
+                    $('#mesPet').text("Successful");
+                    $(':input', '#form')
+                        .not(':button, :submit, :reset, :hidden')
+                        .val('')
+                        .removeAttr('checked')
+                        .removeAttr('selected');
+                    getPets();
+                }
             }
         }
     });
@@ -47,38 +51,42 @@ async function getPets(){
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
-        if(!res.error) {
-            str = '<table>' +
-                '    <thead>' +
-                '    <tr>' +
-                '        <th>Name</th>' +
-                '        <th>Type</th>' +
-                '        <th>Breed</th>' +
-                '        <th>Gender</th>' +
-                '        <th>Bday</th>' +
-                '        <th>History</th>' +
-                '        <th>Delete</th>' +
-                '    </tr>' +
-                '    </thead>' +
-                '    <tbody>';
-            res.forEach(obj => {
-                str += '<tr>' +
-                    '<td>' + obj.name + '</td>' +
-                    '<td>' + obj.type + '</td>' +
-                    '<td>' + obj.breed + '</td>' +
-                    '<td>' + obj.gender + '</td>' +
-                    '<td>' + obj.bday + '</td>' +
-                    '<td><button onclick="historyPet(' + obj.id + ')">Open</button> </td>' +
-                    '<td><button onclick="deletePet(' + obj.id + ')">X</button> </td>' +
-                    '</tr>';
-            });
-            str += '</tbody></table>' +
-                '<select id="sort" onselect="historyPet();">\n' +
-                '<option>asc</option>\n' +
-                '<option>desc</option>\n' +
-                '</select><br/>';
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            if (!res.error) {
+                str = '<table>' +
+                    '    <thead>' +
+                    '    <tr>' +
+                    '        <th>Name</th>' +
+                    '        <th>Type</th>' +
+                    '        <th>Breed</th>' +
+                    '        <th>Gender</th>' +
+                    '        <th>Bday</th>' +
+                    '        <th>History</th>' +
+                    '        <th>Delete</th>' +
+                    '    </tr>' +
+                    '    </thead>' +
+                    '    <tbody>';
+                res.forEach(obj => {
+                    str += '<tr>' +
+                        '<td>' + obj.name + '</td>' +
+                        '<td>' + obj.type + '</td>' +
+                        '<td>' + obj.breed + '</td>' +
+                        '<td>' + obj.gender + '</td>' +
+                        '<td>' + obj.bday + '</td>' +
+                        '<td><button onclick="historyPet(' + obj.id + ')">Open</button> </td>' +
+                        '<td><button onclick="deletePet(' + obj.id + ')">X</button> </td>' +
+                        '</tr>';
+                });
+                str += '</tbody></table>' +
+                    '<select id="sort" onselect="historyPet();">\n' +
+                    '<option>asc</option>\n' +
+                    '<option>desc</option>\n' +
+                    '</select><br/>';
             }
-        document.getElementById("listP").innerHTML = str;
+            document.getElementById("listP").innerHTML = str;
+        }
     });
 }
 
@@ -94,7 +102,11 @@ async function deletePet(id){
             'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
-        getPets();
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            getPets();
+        }
     });
 }
 
@@ -113,27 +125,31 @@ async function historyPet(id){
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
-        if(!res.error) {
-            str = '<table>' +
-                '    <thead>' +
-                '    <tr>' +
-                '        <th>Date</th>' +
-                '        <th>Condition</th>' +
-                '        <th>Diagnosis</th>' +
-                '        <th>Open</th>' +
-                '    </tr>' +
-                '    </thead>' +
-                '    <tbody>';
-            res.forEach(obj => {
-                str += '<tr>' +
-                    '<td>' + obj.date + '</td>' +
-                    '<td>' + obj.complaints + '</td>' +
-                    '<td>' + obj.diagnosis + '</td>' +
-                    '</tr>';
-            });
-            str += '</tbody></table>';
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            if (!res.error) {
+                str = '<table>' +
+                    '    <thead>' +
+                    '    <tr>' +
+                    '        <th>Date</th>' +
+                    '        <th>Condition</th>' +
+                    '        <th>Diagnosis</th>' +
+                    '        <th>Open</th>' +
+                    '    </tr>' +
+                    '    </thead>' +
+                    '    <tbody>';
+                res.forEach(obj => {
+                    str += '<tr>' +
+                        '<td>' + obj.date + '</td>' +
+                        '<td>' + obj.complaints + '</td>' +
+                        '<td>' + obj.diagnosis + '</td>' +
+                        '</tr>';
+                });
+                str += '</tbody></table>';
+            }
+            document.getElementById("historyPet").innerHTML = str;
         }
-        document.getElementById("historyPet").innerHTML = str;
     });
 }
 
