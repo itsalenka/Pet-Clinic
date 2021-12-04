@@ -4,6 +4,7 @@ import by.tukai.spring_lr2.dto.PetRegistrDto;
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.dto.UserAdminDto;
 import by.tukai.spring_lr2.dto.UserRegistrDto;
+import by.tukai.spring_lr2.exceptions.RegistrationException;
 import by.tukai.spring_lr2.mapping.UserMapper;
 import by.tukai.spring_lr2.model.User;
 import by.tukai.spring_lr2.service.UserService;
@@ -29,26 +30,17 @@ public class AdminRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@RequestBody UserRegistrDto user){
+    public ResponseEntity add(@RequestBody UserRegistrDto user) throws RegistrationException {
         ResponseDto responseDto= new ResponseDto();
-        try {
-            userService.register(user, "ROLE_DOCTOR");
-        }catch (Exception e){
-            responseDto.setError(e.getMessage());
-        } finally {
-            return new ResponseEntity(responseDto, HttpStatus.OK);
-        }
+        userService.register(user, "ROLE_DOCTOR");
+        return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/users")
     public ResponseEntity users(){
-        try {
-            List<UserAdminDto> list = userService.users();
-            if(list.size() == 0)
-                return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
+        List<UserAdminDto> list = userService.users();
+        if(list.size() == 0)
+            return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

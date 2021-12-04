@@ -34,16 +34,12 @@ public class DoctorRestController {
     }
 
     @GetMapping("/search/{fio}")
-    public ResponseEntity getPets(@PathVariable(value = "fio") String fio){
-        try{
+    public ResponseEntity getPets(@PathVariable(value = "fio") String fio) throws Exception {
             List<PetOutDto> list = petService.getPetsByFio(fio);
             if(list.size() == 0)
                 return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
             System.out.println(list);
             return new ResponseEntity<>(list, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
     }
 
     @GetMapping("/about")
@@ -54,25 +50,16 @@ public class DoctorRestController {
 
     @PutMapping("/save")
     public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto){
-        try {
             userService.update(userAboutDto);
             return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
     }
 
     @GetMapping("/users")
     public ResponseEntity getUsers(){
-        try {
             List<String> list = userService.getAllFio();
             System.out.println(list);
             if (list.size() == 0)
                 return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(list, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
     }
 }

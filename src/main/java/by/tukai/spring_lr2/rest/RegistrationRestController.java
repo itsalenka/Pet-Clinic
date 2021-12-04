@@ -33,12 +33,7 @@ public class RegistrationRestController {
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrDto user) throws RegistrationException {
         ResponseDto  responseDto= new ResponseDto();
-        try {
-            userService.register(user, "ROLE_USER");
-        }catch (Exception e){
-            responseDto.setError(e.getMessage());
-        } finally {
-            return new ResponseEntity(responseDto, HttpStatus.OK);
-        }
+        userService.register(user, "ROLE_USER");
+        return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 }

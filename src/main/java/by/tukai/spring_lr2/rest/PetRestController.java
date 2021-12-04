@@ -34,26 +34,17 @@ public class PetRestController {
 
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getPets(@PathVariable(value = "id") Long id) {
-        try {
+    public ResponseEntity<?> getPets(@PathVariable(value = "id") Long id) throws Exception {
         List<PetRegistrDto> list = petService.getPets(id);
             if(list.size() == 0)
                 return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(list, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
     }
 
     @PostMapping("/add")
     public ResponseEntity addPet(@Valid @RequestBody PetRegistrDto petRegistrDto){
-        try {
-            petService.add(petRegistrDto);
-            return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
+        petService.add(petRegistrDto);
+        return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -64,14 +55,9 @@ public class PetRestController {
 
     @GetMapping("/history/{id}")
     public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) {
-        try{
-            List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);
-            if(list.size() == 0)
-                return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-
-        }
+        List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);
+        if(list.size() == 0)
+            return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

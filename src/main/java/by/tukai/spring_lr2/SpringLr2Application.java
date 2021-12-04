@@ -10,7 +10,6 @@ public class SpringLr2Application {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringLr2Application.class, args);
-
     }
 
     @Bean

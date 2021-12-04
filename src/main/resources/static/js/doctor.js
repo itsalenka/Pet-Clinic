@@ -12,9 +12,10 @@ async function search(){
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
-        if(res.status == 500){
-            $('#div').html(errorPage("Authorisation Error"));
-        }else {
+        console.log(res.error);
+        // if(res.status == 500){
+        //     $('#div').html(errorPage("Authorisation Error"));
+        // }else {
             if (!res.error) {
                 str = '<table>' +
                     '    <thead>' +
@@ -49,7 +50,7 @@ async function search(){
                     '</select><br/>';
             }
             document.getElementById("searchRes").innerHTML = str;
-        }
+       // }
     });
 }
 

@@ -39,7 +39,6 @@ public class AuthenticationRestController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAuthDto userAuthDto) throws AuthenticationException {
         TokenResponseDto tokenResponseDto = new TokenResponseDto();
-        try {
             final String username = userAuthDto.getUsername();
             final String password = userAuthDto.getPassword();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -49,11 +48,6 @@ public class AuthenticationRestController {
             tokenResponseDto.setRole(user.getRoles().toString());
             tokenResponseDto.setToken(token);
             System.out.println(tokenResponseDto.toString());
-        } catch (Exception e) {
-            log.error(e.toString());
-            tokenResponseDto.setError("Invalid username or password");
-        } finally {
             return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
-        }
     }
 }

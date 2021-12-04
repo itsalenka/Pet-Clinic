@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping(value = "/api/appointment/")
@@ -36,14 +37,9 @@ public class AppointmentRestController {
     }
 
     @PostMapping("/doctor/save")
-    public ResponseEntity save(@Valid @RequestBody NewAppointment ap){
-        try {
-            appointmentService.add(ap);
-            return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
+    public ResponseEntity save(@Valid @RequestBody NewAppointment ap) throws ParseException {
+        appointmentService.add(ap);
+        return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
     @DeleteMapping("/doctor/delete/{id}")

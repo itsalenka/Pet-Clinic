@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface PetService {
     void add(PetRegistrDto petRegistrDto);
-    List<PetRegistrDto> getPets(Long id);
+    List<PetRegistrDto> getPets(Long id) throws Exception;
     void delete(Long id);
-    List<PetOutDto> getPetsByFio(String fio);
+    List<PetOutDto> getPetsByFio(String fio) throws Exception;
     Pet findById(Long id);
 }

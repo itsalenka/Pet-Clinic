@@ -37,12 +37,7 @@ public class UserRestController {
 
     @PutMapping("/save")
     public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto){
-        try {
             userService.update(userAboutDto);
             return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
-        }
     }
 }
