@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.dto.AppointmentInfoDto;
 import by.tukai.spring_lr2.dto.NewAppointment;
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.service.AppointmentService;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/api/appointment")
+@RequestMapping(value = "/api/appointment/")
 public class AppointmentRestController {
     private final AppointmentService appointmentService;
 
@@ -21,6 +22,7 @@ public class AppointmentRestController {
     public AppointmentRestController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
+
 
     @GetMapping("/add")
     public ModelAndView addAppointment(@RequestParam(value="idu") Long idu, @RequestParam(value="idp") Long idp, Model model) {
@@ -33,7 +35,7 @@ public class AppointmentRestController {
         return modelAndView;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/doctor/save")
     public ResponseEntity save(@Valid @RequestBody NewAppointment ap){
         try {
             appointmentService.add(ap);
@@ -43,4 +45,27 @@ public class AppointmentRestController {
             return new ResponseEntity<>(new ResponseDto(e.getMessage()), HttpStatus.OK);
         }
     }
+
+    @DeleteMapping("/doctor/delete/{id}")
+    public ResponseEntity delete(@PathVariable(value = "id") Long id){
+        appointmentService.delete(id);
+        return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
+    }
+
+    @GetMapping("/doctor/check")
+    public ResponseEntity check(){
+        return new ResponseEntity(new ResponseDto(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView get(@PathVariable(value = "id") Long id, Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("appointment");
+        AppointmentInfoDto ap = appointmentService.getInfo(id);
+        model.addAttribute("ap", ap);
+        return modelAndView;
+    }
+
+    @GetMapping("/get/check")
+    public ResponseEntity checkGet(){return new ResponseEntity(new ResponseDto(), HttpStatus.OK);}
 }

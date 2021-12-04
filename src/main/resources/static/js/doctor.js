@@ -1,4 +1,4 @@
-var header = 'Bearer ' + localStorage.getItem("jwt");
+var petid;
 var id;
 
 async function search(){
@@ -8,7 +8,7 @@ async function search(){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
@@ -46,13 +46,14 @@ async function search(){
 }
 
 async function historyPet(id){
+    petid = id;
     document.getElementById("historyPet").innerHTML = "";
     fetch("api/pet/history/" + id, {
         method: 'Get',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
@@ -60,10 +61,11 @@ async function historyPet(id){
             str = '<table>' +
                 '    <thead>' +
                 '    <tr>' +
-                '        <th>Дата</th>' +
-                '        <th>Жалобы</th>' +
-                '        <th>Диагноз</th>' +
-                '        <th>Удалить</th>' +
+                '        <th>Date</th>' +
+                '        <th>Condition</th>' +
+                '        <th>Diagnosis</th>' +
+                '        <th>Open</th>' +
+                '        <th>Delete</th>' +
                 '    </tr>' +
                 '    </thead>' +
                 '    <tbody>';
@@ -72,6 +74,7 @@ async function historyPet(id){
                     '<td>' + obj.date + '</td>' +
                     '<td>' + obj.complaints + '</td>' +
                     '<td>' + obj.diagnosis + '</td>' +
+                    '<td><a href="/api/appointment/' + obj.id +'">Open</a></td>' +
                     '<td><button onclick="deleteAppointment(' + obj.id + ')">X</button> </td>' +
                     '</tr>';
             });
@@ -82,7 +85,19 @@ async function historyPet(id){
 }
 
 async function deleteAppointment(id){
-
+    var del = confirm("Delete?");
+    if (del == false)
+        return;
+    fetch("/api/appointment/doctor/delete/" + id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : header()
+        }
+    }).then(res => res.json()).then(res => {
+        historyPet(petid);
+    });
 }
 
 async function getCharacter(){
@@ -91,7 +106,7 @@ async function getCharacter(){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         var list = document.getElementById('character');

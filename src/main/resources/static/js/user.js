@@ -1,6 +1,4 @@
-var header = 'Bearer ' + localStorage.getItem("jwt");
 var id;
-
 
 async function Add(){
     fetch("api/pet/add", {
@@ -8,7 +6,7 @@ async function Add(){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         },
         body: JSON.stringify({
             idUser: id,
@@ -31,7 +29,7 @@ async function Add(){
                     .val('')
                     .removeAttr('checked')
                     .removeAttr('selected');
-               // getPets();
+               getPets();
             }
         }
     });
@@ -45,7 +43,7 @@ async function getPets(){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
@@ -81,13 +79,15 @@ async function getPets(){
 }
 
 async function deletePet(id){
-    console.log(id);
+    var del = confirm("Delete?");
+    if (del == false)
+        return;
     fetch("/api/pet/" + id, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         getPets();
@@ -101,7 +101,7 @@ async function historyPet(id){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         let str = 'Not Found';
@@ -109,9 +109,10 @@ async function historyPet(id){
             str = '<table>' +
                 '    <thead>' +
                 '    <tr>' +
-                '        <th>Дата</th>' +
-                '        <th>Жалобы</th>' +
-                '        <th>Диагноз</th>' +
+                '        <th>Date</th>' +
+                '        <th>Condition</th>' +
+                '        <th>Diagnosis</th>' +
+                '        <th>Open</th>' +
                 '    </tr>' +
                 '    </thead>' +
                 '    <tbody>';

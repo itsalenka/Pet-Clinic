@@ -12,7 +12,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentOutDto {
-    private Date date;
+
+    private String date;
 
     private String complaints;
 

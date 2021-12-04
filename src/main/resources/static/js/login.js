@@ -1,4 +1,5 @@
 async function Login() {
+    localStorage.setItem("jwt", "");
     let username = document.getElementById("user").value;
     let password = document.getElementById("pass").value;
     fetch("/api/auth/login", {
@@ -15,7 +16,6 @@ async function Login() {
         let data = res;
         if (!data.error) {
             localStorage.setItem("jwt", data.token);
-            console.log(data.role[0].name);
             document.location.href = "/";
         } else {
             console.log(data.error);

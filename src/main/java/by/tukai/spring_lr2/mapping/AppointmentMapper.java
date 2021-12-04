@@ -1,8 +1,11 @@
 package by.tukai.spring_lr2.mapping;
 
+import by.tukai.spring_lr2.dto.AppointmentInfoDto;
 import by.tukai.spring_lr2.dto.AppointmentOutDto;
 import by.tukai.spring_lr2.dto.NewAppointment;
 import by.tukai.spring_lr2.model.Appointment;
+import by.tukai.spring_lr2.model.Pet;
+import by.tukai.spring_lr2.model.User;
 import by.tukai.spring_lr2.service.PetService;
 import by.tukai.spring_lr2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ public class AppointmentMapper {
         dto.setId(appointment.getId());
         dto.setComplaints(appointment.getComplaintsC());
         dto.setDiagnosis(appointment.getDiagnosis());
+        dto.setDate(appointment.getCreated().toString().substring(0, 10));
         return dto;
     }
 
@@ -43,5 +47,35 @@ public class AppointmentMapper {
         ap.setUser(userService.findById(dto.getIdDoctor()));
         ap.setPet(petService.findById(dto.getIdPet()));
         return ap;
+    }
+
+    public AppointmentInfoDto toInfoDto(Appointment ap){
+        AppointmentInfoDto dto = new AppointmentInfoDto();
+        dto.setWeight(ap.getWeight().toString());
+        dto.setTemp(ap.getTemp().toString());
+        dto.setHistory(ap.getHistory());
+        dto.setAnamnesis(ap.getAnamnesis());
+        dto.setComplaints(ap.getComplaintsC());
+        dto.setCondition(ap.getConditionC());
+        dto.setDiagnostics(ap.getDiagnostics());
+        dto.setDiagnosis(ap.getDiagnosis());
+        dto.setPurpose(ap.getPurpose());
+        dto.setAge(ap.getAge());
+        dto.setDate(ap.getCreated().toString().substring(0,10));
+
+        Pet pet = ap.getPet();
+        dto.setName(pet.getName());
+        dto.setBreed(pet.getBreed());
+        dto.setGender(pet.getGender());
+        dto.setBday(pet.getBday());
+        dto.setType(pet.getType());
+
+        User user = pet.getUser();
+        dto.setUsername(user.getName());
+
+        User doctor = ap.getUser();
+        dto.setDoctorname(doctor.getName());
+
+        return dto;
     }
 }

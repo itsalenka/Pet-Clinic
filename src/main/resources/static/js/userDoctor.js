@@ -3,6 +3,8 @@ async function singOut(){
     document.location.href = "/login";
 }
 
+function header(){return 'Bearer ' + localStorage.getItem("jwt");}
+
 function errorPage(mes){return `<div><h3>${mes}</h3><h4><a href="/login">Pls, sing in</a></h4></div>`;
 }
 
@@ -26,7 +28,7 @@ async function Save(role){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         },
         body: JSON.stringify({
             id: id,
@@ -49,8 +51,8 @@ async function Save(role){
 }
 
 async function getUser(role){
-    $('#divProfile').show();
-    $('#divPets').hide();
+    $('#divProfile').hide();
+    $('#divPets').show();
     let r;
     if (role == 1)
         r = 'user';
@@ -60,7 +62,7 @@ async function getUser(role){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : header
+            'Authorization' : header()
         }
     }).then(res => res.json()).then(res => {
         if(res.status == 401)
@@ -82,3 +84,4 @@ async function getUser(role){
         }
     });
 }
+

@@ -21,6 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ADMIN_ENDPOINT = "/api/admin/**";
     private static final String DOCTOR_ENDPOINT = "/api/doctor/**";
     private static final String USER_ENDPOINT = "/api/user/**";
+    private static final String AP_DOCTOR_ENDPOINT = "/api/appointment/doctor/**";
+    private static final String AP_GET_ENDPOINT = "/api/appointment/get/**";
 
     @Bean
     @Override
@@ -36,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .antMatchers(DOCTOR_ENDPOINT).hasRole("DOCTOR")
+                .antMatchers(AP_DOCTOR_ENDPOINT).hasRole("DOCTOR")
                 .antMatchers(USER_ENDPOINT).hasRole("USER")
+                .antMatchers(AP_GET_ENDPOINT).authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

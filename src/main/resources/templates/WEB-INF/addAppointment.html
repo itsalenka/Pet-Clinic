@@ -7,7 +7,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script th:src="@{/js/appointment.js}"></script>
 </head>
-<body>
+<body onload="load();">
 <div id="div">
 <h3>Add Appointment</h3>
 <form th:object="${ap}" onsubmit="return false">
@@ -19,7 +19,7 @@
     <input type="number" step="0.1" min="35" max="40" th:field="*{temp}" id="temp"/><br>
     <label>Disease history:</label><br>
     <textarea maxlength="400" rows="10" cols="40" th:field="*{history}" id="history"/><br>
-    <label>Anamnesis:</label><br>
+<label>Anamnesis:</label><br>
     <textarea maxlength="400" rows="10" cols="40" th:field="*{anamnesis}" id="anamnesis"/><br>
     <label>Customer complaints:</label><br>
     <textarea maxlength="200" rows="10" cols="40" th:field="*{complaints}" id="complaints"/><br>
