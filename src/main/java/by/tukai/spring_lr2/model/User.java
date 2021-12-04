@@ -1,8 +1,6 @@
 package by.tukai.spring_lr2.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -14,6 +12,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseEntity{
     @Column(name = "username")
     private String username;
@@ -49,4 +49,5 @@ public class User extends BaseEntity{
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private List<Appointment> appointments;
+
 }
