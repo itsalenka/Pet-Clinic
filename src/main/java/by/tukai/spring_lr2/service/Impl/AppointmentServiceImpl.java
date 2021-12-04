@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -43,10 +44,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentOutDto> getAppointments(Long id) {
+    public List<AppointmentOutDto> getAppointments(Long id, int sort) {
         Pet pet =  petRep.findById(id).get();
-        System.out.println(pet);
         List<Appointment> list = appointmentRep.findAllByPet(pet);
+        if (sort == 2) {
+            list.sort(Comparator.comparing(Appointment::getCreated).reversed());
+        }
         List<AppointmentOutDto> listD = new ArrayList<>();
         for (Appointment a:list) {
             listD.add(appointmentMapper.toAppointmentOutDto(a));
@@ -73,7 +76,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         User user = pet.getUser();
         User doctor = nap.getUser();
 
-        //------------------
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(user.getEmail());
@@ -99,8 +101,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                 "\nPurpose: " + nap.getPurpose() +
                 "\nWe will be glad to see you again in our clinic.");
         this.emailSender.send(message);
-        //----------------------
-
     }
 
     @Override

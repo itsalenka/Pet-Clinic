@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface AppointmentService {
-    List<AppointmentOutDto> getAppointments(Long id);
+    List<AppointmentOutDto> getAppointments(Long id, int sort);
     void add(NewAppointment ap) throws ParseException;
     void delete(Long id);
     AppointmentInfoDto getInfo (Long id);

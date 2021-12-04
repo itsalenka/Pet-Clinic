@@ -46,7 +46,7 @@ public class PetMapper {
         dto.setGender(pet.getGender());
         dto.setBday(pet.getBday());
         dto.setIdUser(pet.getUser().getId());
-        dto.setFio(pet.getUser().getUsername());
+        dto.setFio(pet.getUser().getName());
         dto.setId(pet.getId());
         return dto;
     }

@@ -72,8 +72,12 @@ async function getPets(){
                     '<td><button onclick="deletePet(' + obj.id + ')">X</button> </td>' +
                     '</tr>';
             });
-            str += '</tbody></table>';
-        }
+            str += '</tbody></table>' +
+                '<select id="sort" onselect="historyPet();">\n' +
+                '<option>asc</option>\n' +
+                '<option>desc</option>\n' +
+                '</select><br/>';
+            }
         document.getElementById("listP").innerHTML = str;
     });
 }
@@ -95,8 +99,12 @@ async function deletePet(id){
 }
 
 async function historyPet(id){
+    let sort;
+    if($('#sort option:selected').text() == "asc")
+        sort = 1;
+    else sort = 2;
     document.getElementById("historyPet").innerHTML = "";
-    fetch("api/pet/history/" + id, {
+    fetch("api/pet/history/"+ id + "?sort=" + sort, {
         method: 'Get',
         headers: {
             'Content-Type': 'application/json',

@@ -31,10 +31,9 @@ public class RegistrationRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> register(@Valid @RequestBody UserRegistrDto userRegistrDto) throws RegistrationException {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegistrDto user) throws RegistrationException {
         ResponseDto  responseDto= new ResponseDto();
         try {
-            User user = userMapper.toModel(userRegistrDto);
             userService.register(user, "ROLE_USER");
         }catch (Exception e){
             responseDto.setError(e.getMessage());

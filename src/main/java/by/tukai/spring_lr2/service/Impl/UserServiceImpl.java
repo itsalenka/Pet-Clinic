@@ -1,7 +1,10 @@
 package by.tukai.spring_lr2.service.Impl;
 
 import by.tukai.spring_lr2.dto.UserAboutDto;
+import by.tukai.spring_lr2.dto.UserAdminDto;
+import by.tukai.spring_lr2.dto.UserRegistrDto;
 import by.tukai.spring_lr2.exceptions.RegistrationException;
+import by.tukai.spring_lr2.mapping.UserMapper;
 import by.tukai.spring_lr2.model.Role;
 import by.tukai.spring_lr2.model.Status;
 import by.tukai.spring_lr2.model.User;
@@ -24,18 +27,21 @@ public class UserServiceImpl implements UserService {
     private final RoleRep roleRep;
     private final PasswordEncoder passwordEncoder;
     private final MailSender mailSender;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRep userRep, RoleRep roleRep, PasswordEncoder passwordEncoder, MailSender mailSender) {
+    public UserServiceImpl(UserRep userRep, RoleRep roleRep, PasswordEncoder passwordEncoder, MailSender mailSender, UserMapper userMapper) {
         this.userRep = userRep;
         this.roleRep = roleRep;
         this.passwordEncoder = passwordEncoder;
         this.mailSender = mailSender;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public void register(User user, String role) throws RegistrationException {
+    public void register(UserRegistrDto userRegistrDto, String role) throws RegistrationException {
 
+        User user = userMapper.toModel(userRegistrDto);
         if (userRep.findByUsername(user.getUsername()) != null) {
             throw new RegistrationException("Username is already taken");
         }
@@ -114,6 +120,16 @@ public class UserServiceImpl implements UserService {
         user.get().setPhoneNumber(userAboutDto.getPhoneNumber());
         user.get().setEmail(userAboutDto.getEmail());
         userRep.save(user.get());
+    }
+
+    @Override
+    public List<UserAdminDto> users() {
+        List<User> users =userRep.findAll();
+        List<UserAdminDto> usersdto = new ArrayList<>();
+        for (User u: users) {
+            usersdto.add(userMapper.toUserAdminDto(u));
+        }
+        return usersdto;
     }
 
 }

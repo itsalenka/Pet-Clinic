@@ -39,7 +39,11 @@ async function search(){
                     '<td><button onclick="historyPet(' + obj.id + ')">Open</button> </td>' +
                     '</tr>';
             });
-            str += '</tbody></table>';
+            str += '</tbody></table></br>' +
+                '<select id="sort" onselect="historyPet();">\n' +
+                    '<option>asc</option>\n' +
+                    '<option>desc</option>\n' +
+                '</select><br/>';
         }
         document.getElementById("searchRes").innerHTML = str;
     });
@@ -47,8 +51,12 @@ async function search(){
 
 async function historyPet(id){
     petid = id;
+    let sort;
+    if($('#sort option:selected').text() == "asc")
+        sort = 1;
+    else sort = 2;
     document.getElementById("historyPet").innerHTML = "";
-    fetch("api/pet/history/" + id, {
+    fetch("api/pet/history/" + id + "?sort=" + sort, {
         method: 'Get',
         headers: {
             'Content-Type': 'application/json',

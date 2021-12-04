@@ -1,6 +1,8 @@
 package by.tukai.spring_lr2.service;
 
 import by.tukai.spring_lr2.dto.UserAboutDto;
+import by.tukai.spring_lr2.dto.UserAdminDto;
+import by.tukai.spring_lr2.dto.UserRegistrDto;
 import by.tukai.spring_lr2.exceptions.RegistrationException;
 import by.tukai.spring_lr2.model.User;
 
@@ -9,7 +11,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void register(User user, String role) throws RegistrationException;
+    void register(UserRegistrDto user, String role) throws RegistrationException;
 
     List<User> getAll();
 
@@ -26,4 +28,6 @@ public interface UserService {
     void delete(Long id);
 
     void update(UserAboutDto userAboutDto);
+
+    List<UserAdminDto> users();
 }

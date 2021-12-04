@@ -63,9 +63,9 @@ public class PetRestController {
     }
 
     @GetMapping("/history/{id}")
-    public ResponseEntity petHistory(@PathVariable(value = "id") Long id) {
+    public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) {
         try{
-            List<AppointmentOutDto> list = appointmentService.getAppointments(id);
+            List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);
             if(list.size() == 0)
                 return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(list, HttpStatus.OK);

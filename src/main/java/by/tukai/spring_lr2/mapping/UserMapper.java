@@ -1,11 +1,11 @@
 package by.tukai.spring_lr2.mapping;
 
-import by.tukai.spring_lr2.dto.UserAboutDto;
-import by.tukai.spring_lr2.dto.UserAuthDto;
-import by.tukai.spring_lr2.dto.UserDto;
-import by.tukai.spring_lr2.dto.UserRegistrDto;
+import by.tukai.spring_lr2.dto.*;
+import by.tukai.spring_lr2.model.Role;
 import by.tukai.spring_lr2.model.User;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserMapper {
@@ -34,13 +34,30 @@ public class UserMapper {
     }
 
     public UserAboutDto toUserAboutDto(User user){
-        UserAboutDto userAboutDto = new UserAboutDto();
-        userAboutDto.setUsername(user.getUsername());
-        userAboutDto.setName(user.getName());
-        userAboutDto.setPhoneNumber(user.getPhoneNumber());
-        userAboutDto.setEmail(user.getEmail());
-        userAboutDto.setId(user.getId());
-        return userAboutDto;
+        UserAboutDto dto = new UserAboutDto();
+        dto.setUsername(user.getUsername());
+        dto.setName(user.getName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setEmail(user.getEmail());
+        dto.setId(user.getId());
+        return dto;
     }
 
+    public UserAdminDto toUserAdminDto (User user){
+        UserAdminDto dto = new UserAdminDto();
+        dto.setUsername(user.getUsername());
+        dto.setName(user.getName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setEmail(user.getEmail());
+        dto.setId(user.getId());
+        dto.setId(user.getId());
+
+        String r = "";
+        List<Role> roles = user.getRoles();
+        for (Role role: roles) {
+            r += role.getName();
+        }
+        dto.setRoles(r);
+        return dto;
+    }
 }

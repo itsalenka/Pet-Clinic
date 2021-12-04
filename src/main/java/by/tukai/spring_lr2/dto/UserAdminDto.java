@@ -5,21 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAboutDto {
+public class UserAdminDto {
     private Long id;
 
     private String username;
 
-    private  String name;
+    private String name;
 
     private String phoneNumber;
 
     private String email;
+
+    private String roles;
 }
