@@ -2,6 +2,7 @@ package by.tukai.spring_lr2.rest;
 
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.dto.UserAboutDto;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.mapping.UserMapper;
 import by.tukai.spring_lr2.repository.UserRep;
 import by.tukai.spring_lr2.service.UserService;
@@ -36,7 +37,7 @@ public class UserRestController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto){
+    public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto) throws UserException {
             userService.update(userAboutDto);
             return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }

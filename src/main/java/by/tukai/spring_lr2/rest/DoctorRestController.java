@@ -4,6 +4,7 @@ import by.tukai.spring_lr2.dto.NewAppointment;
 import by.tukai.spring_lr2.dto.PetOutDto;
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.dto.UserAboutDto;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.mapping.UserMapper;
 import by.tukai.spring_lr2.service.AppointmentService;
 import by.tukai.spring_lr2.service.PetService;
@@ -49,7 +50,7 @@ public class DoctorRestController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto){
+    public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto) throws UserException {
             userService.update(userAboutDto);
             return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
@@ -57,7 +58,6 @@ public class DoctorRestController {
     @GetMapping("/users")
     public ResponseEntity getUsers(){
             List<String> list = userService.getAllFio();
-            System.out.println(list);
             if (list.size() == 0)
                 return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(list, HttpStatus.OK);

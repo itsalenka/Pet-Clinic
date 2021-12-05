@@ -8,10 +8,12 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
 @Entity
+@ToString
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "users")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntity{

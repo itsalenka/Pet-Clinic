@@ -3,6 +3,8 @@ package by.tukai.spring_lr2.mapping;
 import by.tukai.spring_lr2.dto.AppointmentInfoDto;
 import by.tukai.spring_lr2.dto.AppointmentOutDto;
 import by.tukai.spring_lr2.dto.NewAppointment;
+import by.tukai.spring_lr2.exceptions.PetException;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.model.Appointment;
 import by.tukai.spring_lr2.model.Pet;
 import by.tukai.spring_lr2.model.User;
@@ -33,7 +35,7 @@ public class AppointmentMapper {
         return dto;
     }
 
-    public Appointment toModel(NewAppointment dto){
+    public Appointment toModel(NewAppointment dto) throws UserException, PetException {
         Appointment ap = new Appointment();
         ap.setWeight(Float.parseFloat(dto.getWeight()));
         ap.setTemp(Float.parseFloat(dto.getTemp()));

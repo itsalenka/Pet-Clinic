@@ -1,8 +1,6 @@
 package by.tukai.spring_lr2.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -11,7 +9,11 @@ import java.util.Date;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "appointments")
-@Data
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Appointment extends BaseEntity{
 
     @Column(name = "weight")

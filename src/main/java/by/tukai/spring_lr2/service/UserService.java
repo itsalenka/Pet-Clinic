@@ -4,6 +4,7 @@ import by.tukai.spring_lr2.dto.UserAboutDto;
 import by.tukai.spring_lr2.dto.UserAdminDto;
 import by.tukai.spring_lr2.dto.UserRegistrDto;
 import by.tukai.spring_lr2.exceptions.RegistrationException;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.model.User;
 
 import java.util.List;
@@ -23,11 +24,17 @@ public interface UserService {
 
     User findByEmail(String email);
 
-    User findById(Long id);
+    User findById(Long id) throws UserException;
 
     void delete(Long id);
 
-    void update(UserAboutDto userAboutDto);
+    void update(UserAboutDto userAboutDto) throws UserException;
 
     List<UserAdminDto> users();
+
+    User findByName(String name);
+
+    List<User> findAll();
+
+    void save(User user);
 }

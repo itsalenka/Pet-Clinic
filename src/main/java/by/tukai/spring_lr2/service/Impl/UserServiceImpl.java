@@ -4,6 +4,7 @@ import by.tukai.spring_lr2.dto.UserAboutDto;
 import by.tukai.spring_lr2.dto.UserAdminDto;
 import by.tukai.spring_lr2.dto.UserRegistrDto;
 import by.tukai.spring_lr2.exceptions.RegistrationException;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.mapping.UserMapper;
 import by.tukai.spring_lr2.model.Role;
 import by.tukai.spring_lr2.model.Status;
@@ -41,10 +42,10 @@ public class UserServiceImpl implements UserService {
     public void register(UserRegistrDto userRegistrDto, String role) throws RegistrationException {
 
         User user = userMapper.toModel(userRegistrDto);
-        if (userRep.findByUsername(user.getUsername()) != null) {
+        if (findByUsername(user.getUsername()) != null) {
             throw new RegistrationException("Username is already taken");
         }
-        if (userRep.findByEmail(user.getEmail()) != null) {
+        if (findByEmail(user.getEmail()) != null) {
             throw new RegistrationException("Email is already taken");
         }
         Role roleUser = roleRep.findByName(role);
@@ -57,19 +58,19 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(Status.ACTIVE);
 
-        userRep.save(user);
+        save(user);
     }
 
     @Override
     public List<User> getAll() {
-        List<User> result = userRep.findAll();
+        List<User> result = findAll();
         log.info("IN getAll - {} users found", result.size());
         return result;
     }
 
     @Override
     public List<String> getAllFio() {
-        List<User> result = userRep.findAll();
+        List<User> result = findAll();
         List<String> list = new ArrayList<>();
         for (User user: result) {
             if (user.getRoles().contains(roleRep.findByName("ROLE_USER")))
@@ -97,38 +98,55 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Long id) throws UserException {
         User result = userRep.findById(id).orElse(null);
         if (result == null) {
-            log.warn("IN findById - no user found by id: {}", id);
-            return null;
+            log.warn("In findById - User not found with id: " + id);
+            throw new UserException("User not found with id: " + id);
         }
-        log.info("IN findById - user: {} found by id: {}", result, id);
+        log.info("In findById - user found by id: {}", id);
         return result;
     }
 
     @Override
     public void delete(Long id) {
         userRep.deleteById(id);
-        log.info("IN delete - user with id: ${id} successfully deleted");
+        log.info("In delete - user with id: {} successfully deleted", id);
     }
 
     @Override
-    public void update(UserAboutDto userAboutDto){
-        Optional<User> user = userRep.findById(userAboutDto.getId());
-        user.get().setPhoneNumber(userAboutDto.getPhoneNumber());
-        user.get().setEmail(userAboutDto.getEmail());
-        userRep.save(user.get());
+    public void update(UserAboutDto userAboutDto) throws UserException {
+        User user = findById(userAboutDto.getId());
+        user.setPhoneNumber(userAboutDto.getPhoneNumber());
+        user.setEmail(userAboutDto.getEmail());
+        save(user);
+        log.info("In update - user successfully updated");
     }
 
     @Override
     public List<UserAdminDto> users() {
-        List<User> users =userRep.findAll();
+        List<User> users = findAll();
         List<UserAdminDto> usersdto = new ArrayList<>();
         for (User u: users) {
             usersdto.add(userMapper.toUserAdminDto(u));
         }
         return usersdto;
+    }
+
+    @Override
+    public User findByName(String name) {
+        return userRep.findByName(name);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRep.findAll();
+    }
+
+    @Override
+    public void save(User user) {
+        userRep.save(user);
+        log.info("In save - user successfully saved");
     }
 
 }

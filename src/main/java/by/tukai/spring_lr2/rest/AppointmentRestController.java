@@ -3,6 +3,9 @@ package by.tukai.spring_lr2.rest;
 import by.tukai.spring_lr2.dto.AppointmentInfoDto;
 import by.tukai.spring_lr2.dto.NewAppointment;
 import by.tukai.spring_lr2.dto.ResponseDto;
+import by.tukai.spring_lr2.exceptions.AppointmentException;
+import by.tukai.spring_lr2.exceptions.PetException;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,14 +40,14 @@ public class AppointmentRestController {
     }
 
     @PostMapping("/doctor/save")
-    public ResponseEntity save(@Valid @RequestBody NewAppointment ap) throws ParseException {
+    public ResponseEntity save(@Valid @RequestBody NewAppointment ap) throws ParseException, UserException, PetException {
         appointmentService.add(ap);
         return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
     @DeleteMapping("/doctor/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") Long id){
-        appointmentService.delete(id);
+        appointmentService.deleteById(id);
         return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
@@ -54,7 +57,7 @@ public class AppointmentRestController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView get(@PathVariable(value = "id") Long id, Model model){
+    public ModelAndView get(@PathVariable(value = "id") Long id, Model model) throws AppointmentException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("appointment");
         AppointmentInfoDto ap = appointmentService.getInfo(id);

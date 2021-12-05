@@ -3,6 +3,7 @@ package by.tukai.spring_lr2.rest;
 import by.tukai.spring_lr2.dto.AppointmentOutDto;
 import by.tukai.spring_lr2.dto.PetRegistrDto;
 import by.tukai.spring_lr2.dto.ResponseDto;
+import by.tukai.spring_lr2.exceptions.PetException;
 import by.tukai.spring_lr2.mapping.PetMapper;
 import by.tukai.spring_lr2.repository.PetRep;
 import by.tukai.spring_lr2.service.AppointmentService;
@@ -49,12 +50,12 @@ public class PetRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deletePet(@PathVariable(value = "id") Long id){
-        petService.delete(id);
+        petService.deleteById(id);
         return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
     @GetMapping("/history/{id}")
-    public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) {
+    public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) throws PetException {
         List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);
         if(list.size() == 0)
             return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);

@@ -1,17 +1,19 @@
 package by.tukai.spring_lr2.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "pets")
-@Data
 public class Pet extends BaseEntity{
 
     @Column(name = "name")

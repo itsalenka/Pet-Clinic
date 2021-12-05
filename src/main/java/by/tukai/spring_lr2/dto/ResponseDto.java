@@ -1,10 +1,10 @@
 package by.tukai.spring_lr2.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDto {

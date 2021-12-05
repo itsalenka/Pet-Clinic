@@ -1,16 +1,17 @@
 package by.tukai.spring_lr2.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@ToString
 @EqualsAndHashCode(callSuper = true)
-@Data
 @NoArgsConstructor
+@Entity
 @Table(name = "roles")
 public class Role extends BaseEntity{
 

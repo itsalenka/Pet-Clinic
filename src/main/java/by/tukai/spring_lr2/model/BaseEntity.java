@@ -1,6 +1,6 @@
 package by.tukai.spring_lr2.model;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -8,7 +8,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @MappedSuperclass
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

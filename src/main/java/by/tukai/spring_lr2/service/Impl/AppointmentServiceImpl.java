@@ -3,6 +3,9 @@ package by.tukai.spring_lr2.service.Impl;
 import by.tukai.spring_lr2.dto.AppointmentInfoDto;
 import by.tukai.spring_lr2.dto.AppointmentOutDto;
 import by.tukai.spring_lr2.dto.NewAppointment;
+import by.tukai.spring_lr2.exceptions.AppointmentException;
+import by.tukai.spring_lr2.exceptions.PetException;
+import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.mapping.AppointmentMapper;
 import by.tukai.spring_lr2.model.Appointment;
 import by.tukai.spring_lr2.model.Pet;
@@ -29,23 +32,23 @@ import java.util.List;
 @Service
 @Slf4j
 public class AppointmentServiceImpl implements AppointmentService {
-    private final PetRep petRep;
+    private final PetService petService;
     private final AppointmentRep appointmentRep;
     private final AppointmentMapper appointmentMapper;
     public final JavaMailSender emailSender;
 
     @Autowired
-    public AppointmentServiceImpl(PetService petService, PetRep petRep, AppointmentRep appointmentRep, AppointmentMapper appointmentMapper, JavaMailSender emailSender) {
-        this.petRep = petRep;
+    public AppointmentServiceImpl(PetService petService, PetRep petRep, PetService petService1, AppointmentRep appointmentRep, AppointmentMapper appointmentMapper, JavaMailSender emailSender) {
+        this.petService = petService1;
         this.appointmentRep = appointmentRep;
         this.appointmentMapper = appointmentMapper;
         this.emailSender = emailSender;
     }
 
     @Override
-    public List<AppointmentOutDto> getAppointments(Long id, int sort) {
-        Pet pet =  petRep.findById(id).get();
-        List<Appointment> list = appointmentRep.findAllByPet(pet);
+    public List<AppointmentOutDto> getAppointments(Long id, int sort) throws PetException {
+        Pet pet =  petService.findById(id);
+        List<Appointment> list = findAllByPet(pet);
         if (sort == 2) {
             list.sort(Comparator.comparing(Appointment::getCreated).reversed());
         }
@@ -53,12 +56,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         for (Appointment a:list) {
             listD.add(appointmentMapper.toAppointmentOutDto(a));
         }
-        System.out.println(listD);
         return listD;
     }
 
     @Override
-    public void add(NewAppointment ap) throws ParseException {
+    public void add(NewAppointment ap) throws ParseException, UserException, PetException {
         Appointment nap = appointmentMapper.toModel(ap);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-d");
         LocalDate d1 = LocalDate .parse(nap.getPet().getBday(), dateFormat);
@@ -70,7 +72,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         nap.setUpdated(date);
         nap.setStatus(Status.ACTIVE);
 
-        appointmentRep.save(nap);
+        save(nap);
         Pet pet = nap.getPet();
         User user = pet.getUser();
         User doctor = nap.getUser();
@@ -102,14 +104,37 @@ public class AppointmentServiceImpl implements AppointmentService {
         this.emailSender.send(message);
     }
 
+
     @Override
-    public void delete(Long id) {
-        appointmentRep.deleteById(id);
+    public AppointmentInfoDto getInfo(Long id) throws AppointmentException {
+        Appointment ap = findById(id);
+        return appointmentMapper.toInfoDto(ap);
     }
 
     @Override
-    public AppointmentInfoDto getInfo(Long id) {
-        Appointment ap = appointmentRep.findById(id).get();
-        return appointmentMapper.toInfoDto(ap);
+    public List<Appointment> findAllByPet(Pet pet) {
+        return appointmentRep.findAllByPet(pet);
+    }
+
+    @Override
+    public void save(Appointment appointment) {
+        appointmentRep.save(appointment);
+        log.info("In add - appointment successfully saved");
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        appointmentRep.deleteById(id);
+        log.info("In delete - appointment with id: {} successfully deleted", id);
+    }
+
+    @Override
+    public Appointment findById(Long id) throws AppointmentException {
+        Appointment ap = appointmentRep.findById(id).orElse(null);
+        if (ap == null) {
+            log.warn("In findById - appointment not found with id: " + id);
+            throw new AppointmentException("appointment not found with id: " + id);
+        }
+        return ap;
     }
 }

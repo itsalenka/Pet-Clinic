@@ -62,7 +62,9 @@ async function load() {
             else{
                 if(res.status == 500){
                     $('#div').html(errorPage("Authorisation Error"));
-                }else {}
+                }else {
+                 history.pushState({}, null, "/doctor/addAppointment");
+                }
             }
         }
     });
@@ -77,13 +79,14 @@ async function checkGet(){
             'Authorization' : header
         }
     }).then(res => res.json()).then(res => {
-        console.log(res.status);
         if (res.status == 401)
             $('#div').html(errorPage("You are not authorized"));
         else {
             if(res.status == 500){
                 $('#div').html(errorPage("Authorisation Error"));
             }else {
+                let str = document.location.href.split("appointment/")[1];
+                history.pushState({}, null, "/appointment/" + str);
             }
         }
     });
