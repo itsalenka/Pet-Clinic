@@ -9,6 +9,8 @@ import by.tukai.spring_lr2.mapping.UserMapper;
 import by.tukai.spring_lr2.service.AppointmentService;
 import by.tukai.spring_lr2.service.PetService;
 import by.tukai.spring_lr2.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+@Tag(name="Doctor REST Controller", description="The controller accepts requests from the doctor page")
 @RestController
 @RequestMapping(value = "/api/doctor")
 public class DoctorRestController {
@@ -34,6 +37,10 @@ public class DoctorRestController {
         this.petService = petService;
     }
 
+    @Operation(
+            summary = "Getting user's pets",
+            description = "Allows you to get user's pets by user's FIO"
+    )
     @GetMapping("/search/{fio}")
     public ResponseEntity getPets(@PathVariable(value = "fio") String fio) throws Exception {
             List<PetOutDto> list = petService.getPetsByFio(fio);
@@ -43,18 +50,30 @@ public class DoctorRestController {
             return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Getting info about user",
+            description = "Allows you to get info about user"
+    )
     @GetMapping("/about")
     public ResponseEntity getUser(Principal principal){
         UserAboutDto user = userMapper.toUserAboutDto(userService.findByUsername(principal.getName()));
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Changing user data",
+            description = "Allows you to change user date"
+    )
     @PutMapping("/save")
     public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto) throws UserException {
             userService.update(userAboutDto);
             return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Search users by FIO",
+            description = "Allows you to search users with role 'user' by FIO"
+    )
     @GetMapping("/users")
     public ResponseEntity getUsers(){
             List<String> list = userService.getAllFio();

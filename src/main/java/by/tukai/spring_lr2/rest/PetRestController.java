@@ -8,6 +8,8 @@ import by.tukai.spring_lr2.mapping.PetMapper;
 import by.tukai.spring_lr2.repository.PetRep;
 import by.tukai.spring_lr2.service.AppointmentService;
 import by.tukai.spring_lr2.service.PetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Tag(name="Pet REST Controller", description="The controller accepts requests from the doctor and user pages")
 @RestController
 @RequestMapping(value = "/api/pet")
 public class PetRestController {
@@ -33,7 +36,10 @@ public class PetRestController {
         this.appointmentService = appointmentService;
     }
 
-
+    @Operation(
+            summary = "Getting user's pets",
+            description = "Allows you to get user's pets"
+    )
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getPets(@PathVariable(value = "id") Long id) throws Exception {
         List<PetRegistrDto> list = petService.getPets(id);
@@ -42,18 +48,30 @@ public class PetRestController {
             return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Pet addition",
+            description = "Allows you to add a pet"
+    )
     @PostMapping("/add")
     public ResponseEntity addPet(@Valid @RequestBody PetRegistrDto petRegistrDto){
         petService.add(petRegistrDto);
         return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Pet deletion",
+            description = "Allows you to delete a pet"
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity deletePet(@PathVariable(value = "id") Long id){
         petService.deleteById(id);
         return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Getting pet's appointments",
+            description = "Allows you to get pet's appointments"
+    )
     @GetMapping("/history/{id}")
     public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) throws PetException {
         List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);

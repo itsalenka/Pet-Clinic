@@ -6,6 +6,8 @@ import by.tukai.spring_lr2.exceptions.AuthenticationException;
 import by.tukai.spring_lr2.model.User;
 import by.tukai.spring_lr2.repository.UserRep;
 import by.tukai.spring_lr2.security.jwt.TokenProvider;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-@Slf4j
+@Tag(name="Authentication REST Controller", description="The controller accepts requests from the login page")
 @RestController
 @RequestMapping(value = "/api/auth")
 public class AuthenticationRestController {
@@ -36,6 +38,10 @@ public class AuthenticationRestController {
         this.tokenProvider = tokenProvider;
     }
 
+    @Operation(
+            summary = "User authentication",
+            description = "Allows you to authentication"
+    )
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAuthDto userAuthDto) throws AuthenticationException {
         TokenResponseDto tokenResponseDto = new TokenResponseDto();
