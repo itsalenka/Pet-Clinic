@@ -12,7 +12,7 @@ public class ControllerAdviceC {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseDto> handleException(Exception e) {
         ResponseDto response = new ResponseDto(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }

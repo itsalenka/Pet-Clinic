@@ -4,16 +4,18 @@ import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+@EnableWebMvc
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Bean public ClassLoaderTemplateResolver templateResolver() {
-        var templateResolver = new ClassLoaderTemplateResolver();
+        var templateResolver     = new ClassLoaderTemplateResolver();
         templateResolver.setPrefix("templates/WEB-INF/");
         templateResolver.setCacheable(false);
         templateResolver.setSuffix(".html");
