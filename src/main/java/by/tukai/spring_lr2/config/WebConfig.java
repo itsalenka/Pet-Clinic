@@ -11,11 +11,10 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-@EnableWebMvc
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Bean public ClassLoaderTemplateResolver templateResolver() {
-        var templateResolver     = new ClassLoaderTemplateResolver();
+        var templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setPrefix("templates/WEB-INF/");
         templateResolver.setCacheable(false);
         templateResolver.setSuffix(".html");

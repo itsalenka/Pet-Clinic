@@ -44,7 +44,8 @@ async function search(){
                         '</tr>';
                 });
                 str += '</tbody></table></br>' +
-                    '<select id="sort" onselect="historyPet();">\n' +
+                    '<h4>Select sort to history:</h4>' +
+                    '<select id="sort" onselect="historyPet(); style="margin: 10px;">\n' +
                     '<option>asc</option>\n' +
                     '<option>desc</option>\n' +
                     '</select><br/>';

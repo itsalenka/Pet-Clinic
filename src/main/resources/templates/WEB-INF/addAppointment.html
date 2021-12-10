@@ -6,6 +6,7 @@
     <title>Add Appointment</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script th:src="@{/js/appointment.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
 </head>
 <body onload="load();">
 <div id="div">
@@ -33,7 +34,7 @@
     <textarea maxlength="400" rows="10" cols="40" th:field="*{purpose}" id="purpose"/><br>
     <div id="error"/>
 </form>
-<button onclick="add();">Add</button>
+<button onclick="add();" class="ast">Add</button>
 </div>
 </body>
 </html>

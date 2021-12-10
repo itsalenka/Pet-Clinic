@@ -5,6 +5,35 @@ body {
 
 h2{
     color: rgba(113,34,150,1);
+    font: normal normal bold 26px/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+h3{
+    color: rgb(164, 107, 191);
+    font: normal normal bold 20px/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+h3{
+    color: rgb(164, 107, 191);
+    font: normal normal bold 18px/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+label{
+    color: rgb(52, 6, 52);
+    font: normal normal bold 16px/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+select{
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    color: rgb(52, 6, 52);
 }
 
 .text-css {
@@ -21,13 +50,6 @@ h2{
     text-shadow: 0 0 20px rgba(255,255,255, 0.5) ;
 }
 
-::placeholder {
-    font-family: Montserrat, sans-serif;
-    font-weight: 400;
-    color: rgba(210,160,232,1);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-}
-
 input {
     background: transparent;
     width: 200px;
@@ -36,29 +58,30 @@ input {
     border: none;
     border-left: 1px solid rgba(210,160,232,1);
     border-top: 1px solid rgba(210,160,232,1);
-    border-radius: 5000px;
-    backdrop-filter: blur(5px);
-    box-shadow: 4px 4px 60px rgba(0,0,0,0.2);
+    border-radius: 50px;
+    height: 35px;
     color: rgba(210,160,232,1);
     font-family: Montserrat, sans-serif;
     font-weight: 500;
-    transition: all 0.2s ease-in-out;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-
 }
 
 a {
-    color: rgba(255,255,255,1);
+    color: rgba(210,160,232,1);
     text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
     text-decoration: none;
 }
 
 .ast{
-    color: rgba(185,117,216,1);
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+    color: rgb(255, 255, 255);
+    background: rgba(210,160,232,1);
+    width: 200px;
+    border-radius: 50px;
+    height: 40px;
+    margin: 10px;
 }
 .a-css {
     margin: 0 auto;
+    background: rgb(214, 204, 224);
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -69,15 +92,10 @@ a {
     -webkit-border-radius: 30px;
     border-radius: 30px;
     font: normal 16px/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    color: rgba(255,255,255,1);
     text-align: center;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     letter-spacing: 1px;
-    background: rgba(210,160,232,1);
-    -webkit-box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3) ;
-    box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3) ;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
 }
 
 .container {
@@ -90,7 +108,7 @@ a {
 
 table {
     margin-top: 30px;
-    width: 100%; /*Ширина таблицы*/
+    width: 600px; /*Ширина таблицы*/
     margin-bottom: 18px; /*Отступ снизу от таблицы*/
     padding: 0; /*Отступы внутри таблицы*/
     font-size: 13px; /*Размер шрифта*/
@@ -154,4 +172,18 @@ table tbody tr:last-child td:last-child  /*Последняя строка по�
 
 table tr:hover {
     background-color: #f2f2f2; /*Цвет строки при наведении курсора мыши*/
+}
+
+.username{
+    color: rgba(113,34,150,1);
+    font: normal normal bold 30px/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.but{
+    color: rgb(255, 255, 255);
+    background: rgba(113,34,150,1);
+    width: 100px;
+    border-radius:20px;
+    height: 40px;
+    margin: 10px;
 }

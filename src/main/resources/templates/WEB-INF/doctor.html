@@ -8,18 +8,19 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script th:src="@{/js/userDoctor.js}"></script>
     <script th:src="@{/js/doctor.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
 </head>
 <body onload="getUser(2);">
 <div id="div">
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
         <div class="ml-left">
             <a class="navbar-brand" href="/">Home</a>
-            <span class="badge badge-pill badge-info " id="name"></span>
+            <span class="username" id="name"></span>
         </div>
         <div class="mi-auto">
-            <button class="btn btn-success" onclick="visProfile();">Profile</button>
-            <button class="btn btn-success" onclick="visPets();">Pets</button>
-            <button class="btn btn-success" onclick="singOut();">Sing out</button>
+            <button class="but" onclick="visProfile();">Profile</button>
+            <button class="but" onclick="visPets();">Pets</button>
+            <button class="but" onclick="singOut();">Sing out</button>
         </div>
     </nav>
     <div id="divProfile">
@@ -31,7 +32,7 @@
         <input type="text" id="phoneNumber"/><br/>
         <label>Email:</label><br/>
         <input type="email" id="email"/><br/>
-        <button onclick="Save(2)">Save</button><br/>
+        <button onclick="Save(2)" class="ast">Save</button><br/>
         <span id="mesP"/>
     </div>
     <div id="divPets">
@@ -40,7 +41,7 @@
             <label>Owner's FIO:</label></br>
             <input type="text" id="fio" list="character"/>
             <datalist id="character"></datalist><br>
-            <button onclick="search()">Search</button>
+            <button onclick="search()" class="ast">Search</button>
         </div>
         <div id="searchRes"></div>
         <div id="historyPet"></div>

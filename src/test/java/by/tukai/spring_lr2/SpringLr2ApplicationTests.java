@@ -115,19 +115,15 @@ class SpringLr2ApplicationTests {
         u.setRoles(roles);
         users.add(u);
 
-        List<UserAdminDto> dto= new ArrayList<>();
-        UserAdminDto d = new UserAdminDto();
-        d.setId(1L);
-        d.setUsername("test");
-        d.setName("test");
-        d.setPhoneNumber("123456789");
-        d.setEmail("test@test");
-        d.setRoles("ROLE_USER");
-        dto.add(d);
-
         when(userRep.findAll()).thenReturn(users);
-        Assert.assertEquals(userService.users(), dto);
-
+        List<UserAdminDto> res= userService.users();
+        Assert.assertEquals(res.size(), 1);
+        Assert.assertEquals(res.get(0).getId(), u.getId());
+        Assert.assertEquals(res.get(0).getUsername(), u.getUsername());
+        Assert.assertEquals(res.get(0).getName(), u.getName());
+        Assert.assertEquals(res.get(0).getPhoneNumber(), u.getPhoneNumber());
+        Assert.assertEquals(res.get(0).getEmail(), u.getEmail());
+        Assert.assertEquals(res.get(0).getRoles(), "ROLE_USER");
 
     }
 }

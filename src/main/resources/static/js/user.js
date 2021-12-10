@@ -80,6 +80,7 @@ async function getPets(){
                         '</tr>';
                 });
                 str += '</tbody></table>' +
+                    '<h4>Select sort to history:</h4>' +
                     '<select id="sort" onselect="historyPet();">\n' +
                     '<option>asc</option>\n' +
                     '<option>desc</option>\n' +
@@ -144,6 +145,7 @@ async function historyPet(id){
                         '<td>' + obj.date + '</td>' +
                         '<td>' + obj.complaints + '</td>' +
                         '<td>' + obj.diagnosis + '</td>' +
+                        '<td><a href="/api/appointment/' + obj.id + '">Open</a></td>' +
                         '</tr>';
                 });
                 str += '</tbody></table>';
