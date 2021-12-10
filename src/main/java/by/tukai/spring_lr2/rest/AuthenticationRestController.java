@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.TokenResponseDto;
 import by.tukai.spring_lr2.dto.UserAuthDto;
 import by.tukai.spring_lr2.exceptions.AuthenticationException;
@@ -42,6 +43,7 @@ public class AuthenticationRestController {
             summary = "User authentication",
             description = "Allows you to authentication"
     )
+    @LogAnnotation
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAuthDto userAuthDto) throws AuthenticationException {
         TokenResponseDto tokenResponseDto = new TokenResponseDto();
@@ -53,7 +55,6 @@ public class AuthenticationRestController {
             tokenResponseDto.setUsername(username);
             tokenResponseDto.setRole(user.getRoles().toString());
             tokenResponseDto.setToken(token);
-            System.out.println(tokenResponseDto.toString());
             return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
     }
 }

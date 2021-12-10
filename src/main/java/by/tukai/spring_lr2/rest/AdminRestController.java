@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.PetRegistrDto;
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.dto.UserAdminDto;
@@ -36,6 +37,7 @@ public class AdminRestController {
             summary = "Doctor registration",
             description = "Allows you to register a doctor"
     )
+    @LogAnnotation
     @PostMapping("/add")
     public ResponseEntity add(@RequestBody UserRegistrDto user) throws RegistrationException {
         ResponseDto responseDto= new ResponseDto();
@@ -47,6 +49,7 @@ public class AdminRestController {
             summary = "Get users",
             description = "Allows you to get a list of all users"
     )
+    @LogAnnotation
     @GetMapping("/users")
     public ResponseEntity users(){
         List<UserAdminDto> list = userService.users();

@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.dto.UserAboutDto;
 import by.tukai.spring_lr2.exceptions.UserException;
@@ -37,6 +38,7 @@ public class UserRestController {
             summary = "Getting info about user",
             description = "Allows you to get info about user"
     )
+    @LogAnnotation
     @GetMapping("/about")
     public ResponseEntity getUser(Principal principal){
         UserAboutDto user = userMapper.toUserAboutDto(userService.findByUsername(principal.getName()));
@@ -47,6 +49,7 @@ public class UserRestController {
             summary = "Changing user data",
             description = "Allows you to change user date"
     )
+    @LogAnnotation
     @PutMapping("/save")
     public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto) throws UserException {
             userService.update(userAboutDto);

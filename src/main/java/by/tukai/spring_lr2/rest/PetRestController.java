@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.AppointmentOutDto;
 import by.tukai.spring_lr2.dto.PetRegistrDto;
 import by.tukai.spring_lr2.dto.ResponseDto;
@@ -40,6 +41,7 @@ public class PetRestController {
             summary = "Getting user's pets",
             description = "Allows you to get user's pets"
     )
+    @LogAnnotation
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getPets(@PathVariable(value = "id") Long id) throws Exception {
         List<PetRegistrDto> list = petService.getPets(id);
@@ -52,6 +54,7 @@ public class PetRestController {
             summary = "Pet addition",
             description = "Allows you to add a pet"
     )
+    @LogAnnotation
     @PostMapping("/add")
     public ResponseEntity addPet(@Valid @RequestBody PetRegistrDto petRegistrDto){
         petService.add(petRegistrDto);
@@ -62,6 +65,7 @@ public class PetRestController {
             summary = "Pet deletion",
             description = "Allows you to delete a pet"
     )
+    @LogAnnotation
     @DeleteMapping("/{id}")
     public ResponseEntity deletePet(@PathVariable(value = "id") Long id){
         petService.deleteById(id);
@@ -72,6 +76,7 @@ public class PetRestController {
             summary = "Getting pet's appointments",
             description = "Allows you to get pet's appointments"
     )
+    @LogAnnotation
     @GetMapping("/history/{id}")
     public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) throws PetException {
         List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);

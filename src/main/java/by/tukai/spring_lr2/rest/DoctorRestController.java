@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.NewAppointment;
 import by.tukai.spring_lr2.dto.PetOutDto;
 import by.tukai.spring_lr2.dto.ResponseDto;
@@ -41,6 +42,7 @@ public class DoctorRestController {
             summary = "Getting user's pets",
             description = "Allows you to get user's pets by user's FIO"
     )
+    @LogAnnotation
     @GetMapping("/search/{fio}")
     public ResponseEntity getPets(@PathVariable(value = "fio") String fio) throws Exception {
             List<PetOutDto> list = petService.getPetsByFio(fio);
@@ -54,6 +56,7 @@ public class DoctorRestController {
             summary = "Getting info about user",
             description = "Allows you to get info about user"
     )
+    @LogAnnotation
     @GetMapping("/about")
     public ResponseEntity getUser(Principal principal){
         UserAboutDto user = userMapper.toUserAboutDto(userService.findByUsername(principal.getName()));
@@ -64,6 +67,7 @@ public class DoctorRestController {
             summary = "Changing user data",
             description = "Allows you to change user date"
     )
+    @LogAnnotation
     @PutMapping("/save")
     public ResponseEntity save(@Valid @RequestBody UserAboutDto userAboutDto) throws UserException {
             userService.update(userAboutDto);
@@ -74,6 +78,7 @@ public class DoctorRestController {
             summary = "Search users by FIO",
             description = "Allows you to search users with role 'user' by FIO"
     )
+    @LogAnnotation
     @GetMapping("/users")
     public ResponseEntity getUsers(){
             List<String> list = userService.getAllFio();

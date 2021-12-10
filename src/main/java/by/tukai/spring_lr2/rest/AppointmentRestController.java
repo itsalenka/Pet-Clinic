@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.AppointmentInfoDto;
 import by.tukai.spring_lr2.dto.NewAppointment;
 import by.tukai.spring_lr2.dto.ResponseDto;
@@ -35,6 +36,7 @@ public class AppointmentRestController {
             summary = "Getting add appointment page",
             description = "Allows you to get a add appointment page"
     )
+    @LogAnnotation
     @GetMapping("/add")
     public ModelAndView addAppointment(@RequestParam(value="idu") Long idu, @RequestParam(value="idp") Long idp, Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -50,6 +52,7 @@ public class AppointmentRestController {
             summary = "Appointment addition",
             description = "Allows you to add a appointment"
     )
+    @LogAnnotation
     @PostMapping("/doctor/save")
     public ResponseEntity save(@Valid @RequestBody NewAppointment ap) throws ParseException, UserException, PetException {
         appointmentService.add(ap);
@@ -60,6 +63,7 @@ public class AppointmentRestController {
             summary = "Appointment deletion",
             description = "Allows you to delete a appointment"
     )
+    @LogAnnotation
     @DeleteMapping("/doctor/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") Long id){
         appointmentService.deleteById(id);
@@ -68,6 +72,7 @@ public class AppointmentRestController {
 
 
     @Hidden
+    @LogAnnotation
     @GetMapping("/doctor/check")
     public ResponseEntity check(){
         return new ResponseEntity(new ResponseDto(), HttpStatus.OK);
@@ -77,6 +82,7 @@ public class AppointmentRestController {
             summary = "Getting info appointment page",
             description = "Allows you to get a info appointment page"
     )
+    @LogAnnotation
     @GetMapping("/{id}")
     public ModelAndView get(@PathVariable(value = "id") Long id, Model model) throws AppointmentException {
         ModelAndView modelAndView = new ModelAndView();
@@ -87,6 +93,7 @@ public class AppointmentRestController {
     }
 
     @Hidden
+    @LogAnnotation
     @GetMapping("/get/check")
     public ResponseEntity checkGet(){return new ResponseEntity(new ResponseDto(), HttpStatus.OK);}
 }

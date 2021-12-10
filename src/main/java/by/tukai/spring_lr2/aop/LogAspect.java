@@ -18,11 +18,12 @@ import java.util.stream.Collectors;
 public class LogAspect {
 
 
-    @Pointcut("execution(public * by.tukai.spring_lr2.rest.AuthenticationRestController.*(..))")
-    public void callAtPersonController() {
+    @Pointcut("@annotation(LogAnnotation)")
+    public void callController() {
     }
 
-    @Before("callAtPersonController()")
+
+    @Before("callController()")
     public void beforeCallMethod(JoinPoint jp) {
         String args = Arrays.stream(jp.getArgs())
                 .map(a -> a.toString())
@@ -31,7 +32,7 @@ public class LogAspect {
 
     }
 
-    @After("callAtPersonController()")
+    @After("callController()")
     public void afterCallAt(JoinPoint jp) {
         log.info("after " + jp.toString());
     }

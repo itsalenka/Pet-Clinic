@@ -1,5 +1,6 @@
 package by.tukai.spring_lr2.rest;
 
+import by.tukai.spring_lr2.aop.LogAnnotation;
 import by.tukai.spring_lr2.dto.ResponseDto;
 import by.tukai.spring_lr2.dto.UserRegistrDto;
 import by.tukai.spring_lr2.exceptions.RegistrationException;
@@ -38,6 +39,7 @@ public class RegistrationRestController {
             summary = "User's registration",
             description = "Allows you to register a user"
     )
+    @LogAnnotation
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrDto user) throws RegistrationException {
         ResponseDto  responseDto= new ResponseDto();
