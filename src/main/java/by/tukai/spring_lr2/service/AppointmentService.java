@@ -8,18 +8,17 @@ import by.tukai.spring_lr2.exceptions.PetException;
 import by.tukai.spring_lr2.exceptions.UserException;
 import by.tukai.spring_lr2.model.Appointment;
 import by.tukai.spring_lr2.model.Pet;
+import org.springframework.data.domain.Page;
 
 import java.text.ParseException;
 import java.util.List;
 
 public interface AppointmentService {
-    List<AppointmentOutDto> getAppointments(Long id, int sort) throws PetException;
+    List<AppointmentOutDto> getAppointments(Long id, int sort, int page) throws PetException;
 
     void add(NewAppointment ap) throws ParseException, UserException, PetException;
 
     AppointmentInfoDto getInfo (Long id) throws AppointmentException;
-
-    List<Appointment> findAllByPet(Pet pet);
 
     void save(Appointment appointment);
 

@@ -16,7 +16,12 @@ import by.tukai.spring_lr2.repository.PetRep;
 import by.tukai.spring_lr2.service.AppointmentService;
 import by.tukai.spring_lr2.service.PetService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -46,12 +51,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentOutDto> getAppointments(Long id, int sort) throws PetException {
+    public List<AppointmentOutDto> getAppointments(Long id, int sort, int page) throws PetException {
         Pet pet =  petService.findById(id);
-        List<Appointment> list = findAllByPet(pet);
-        if (sort == 2) {
-            list.sort(Comparator.comparing(Appointment::getCreated).reversed());
+       // Page<Appointment> ap = appointmentRep.findAllByPet(pet, PageRequest.of(1, 2, Sort.by(Sort.Direction.ASC, "created")));
+       // System.out.println(ap.size());
+        Page<Appointment> list = null;
+        if(sort == 1) {
+            System.out.println(page);
+            list = appointmentRep.findAllByPet(pet, PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC, "created")));
         }
+        else {
+            System.out.println("2");
+            list = appointmentRep.findAllByPet(pet, PageRequest.of(page,2, Sort.by(Sort.Direction.DESC, "created")));
+        }
+
         List<AppointmentOutDto> listD = new ArrayList<>();
         for (Appointment a:list) {
             listD.add(appointmentMapper.toAppointmentOutDto(a));
@@ -109,11 +122,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentInfoDto getInfo(Long id) throws AppointmentException {
         Appointment ap = findById(id);
         return appointmentMapper.toInfoDto(ap);
-    }
-
-    @Override
-    public List<Appointment> findAllByPet(Pet pet) {
-        return appointmentRep.findAllByPet(pet);
     }
 
     @Override

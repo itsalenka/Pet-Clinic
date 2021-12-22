@@ -78,8 +78,8 @@ public class PetRestController {
     )
     @LogAnnotation
     @GetMapping("/history/{id}")
-    public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort) throws PetException {
-        List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort);
+    public ResponseEntity petHistory(@PathVariable(value = "id") Long id, @RequestParam(value="sort") int sort, @RequestParam(value="page") int page) throws PetException {
+        List<AppointmentOutDto> list = appointmentService.getAppointments(id, sort, page);
         if(list.size() == 0)
             return new ResponseEntity<>(new ResponseDto("Not found"), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(list, HttpStatus.OK);

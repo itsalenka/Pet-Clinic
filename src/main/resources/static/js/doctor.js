@@ -1,5 +1,6 @@
 var petid;
 var id;
+var page = 0;
 
 async function search(){
     document.getElementById("searchRes").innerHTML = "";
@@ -62,7 +63,7 @@ async function historyPet(id){
         sort = 1;
     else sort = 2;
     document.getElementById("historyPet").innerHTML = "";
-    fetch("api/pet/history/" + id + "?sort=" + sort, {
+    fetch("api/pet/history/" + id + "?sort=" + sort + "&page=" + page, {
         method: 'Get',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ async function historyPet(id){
             $('#div').html(errorPage("Authorisation Error"));
         }else {
             if (!res.error) {
-                str = '<table>' +
+                str = '<div id="apps"><table>' +
                     '    <thead>' +
                     '    <tr>' +
                     '        <th>Date</th>' +
@@ -95,7 +96,7 @@ async function historyPet(id){
                         '<td><button onclick="deleteAppointment(' + obj.id + ')">X</button> </td>' +
                         '</tr>';
                 });
-                str += '</tbody></table>';
+                str += '</tbody></table></div><button onclick="back()">Back</button></br><button onclick="next()">Next</button>';
             }
             document.getElementById("historyPet").innerHTML = str;
         }
@@ -144,6 +145,104 @@ async function getCharacter(){
             });
         }
     });
+}
+
+async function back(){
+    if (page < 1)
+        return;
+    else --page;
+    let sort;
+    if($('#sort option:selected').text() == "asc")
+        sort = 1;
+    else sort = 2;
+    document.getElementById("apps").innerHTML = "";
+    fetch("api/pet/history/" + petid + "?sort=" + sort + "&page=" + page, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : header()
+        }
+    }).then(res => res.json()).then(res => {
+        let str = 'Not Found';
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            if (!res.error) {
+                str = '<table>' +
+                    '    <thead>' +
+                    '    <tr>' +
+                    '        <th>Date</th>' +
+                    '        <th>Condition</th>' +
+                    '        <th>Diagnosis</th>' +
+                    '        <th>Open</th>' +
+                    '        <th>Delete</th>' +
+                    '    </tr>' +
+                    '    </thead>' +
+                    '    <tbody>';
+                res.forEach(obj => {
+                    str += '<tr>' +
+                        '<td>' + obj.date + '</td>' +
+                        '<td>' + obj.complaints + '</td>' +
+                        '<td>' + obj.diagnosis + '</td>' +
+                        '<td><a href="/api/appointment/' + obj.id + '">Open</a></td>' +
+                        '<td><button onclick="deleteAppointment(' + obj.id + ')">X</button> </td>' +
+                        '</tr>';
+                });
+                str += '</tbody></table>';
+            }
+            document.getElementById("apps").innerHTML = str;
+        }
+    });
+
+}
+
+async function next(){
+    ++page;
+    let sort;
+    if($('#sort option:selected').text() == "asc")
+        sort = 1;
+    else sort = 2;
+    document.getElementById("apps").innerHTML = "";
+    fetch("api/pet/history/" + petid + "?sort=" + sort + "&page=" + page, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : header()
+        }
+    }).then(res => res.json()).then(res => {
+        let str = 'Not Found';
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            if (!res.error) {
+                str = '<table>' +
+                    '    <thead>' +
+                    '    <tr>' +
+                    '        <th>Date</th>' +
+                    '        <th>Condition</th>' +
+                    '        <th>Diagnosis</th>' +
+                    '        <th>Open</th>' +
+                    '        <th>Delete</th>' +
+                    '    </tr>' +
+                    '    </thead>' +
+                    '    <tbody>';
+                res.forEach(obj => {
+                    str += '<tr>' +
+                        '<td>' + obj.date + '</td>' +
+                        '<td>' + obj.complaints + '</td>' +
+                        '<td>' + obj.diagnosis + '</td>' +
+                        '<td><a href="/api/appointment/' + obj.id + '">Open</a></td>' +
+                        '<td><button onclick="deleteAppointment(' + obj.id + ')">X</button> </td>' +
+                        '</tr>';
+                });
+                str += '</tbody></table>';
+            }
+            document.getElementById("apps").innerHTML = str;
+        }
+    });
+
 }
 
 
